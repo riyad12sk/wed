@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Viral Video</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        /* ===== MAGIC TITLE ===== */
+
+        .logo {
+            position: relative;
+            display: inline-block;
+            margin: 35px auto 10px;
+            padding: 10px 25px;
+            font-size: 38px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-align: center;
+
+            background: linear-gradient(
+                90deg,
+                #ff0055,
+                #ff8a00,
+                #ffee00,
+                #00ff88,
+                #00d9ff,
+                #7a00ff,
+                #ff00c8,
+                #ff0055
+            );
+
+            background-size: 400% auto;
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+
+            animation: magicColor 6s linear infinite;
+        }
+
+        .logo::before {
+            content: "";
+            position: absolute;
+            inset: -4px;
+            border-radius: 50px;
+            background: conic-gradient(
+                #ff0055,
+                #ff8a00,
+                #ffee00,
+                #00ff88,
+                #00d9ff,
+                #7a00ff,
+                #ff00c8,
+                #ff0055
+            );
+            z-index: -1;
+            filter: blur(12px);
+            opacity: 0.7;
+            animation: ring 4s linear infinite;
+        }
+
+        @keyframes magicColor {
+            0% {
+                background-position: 0% center;
+            }
+
+            100% {
+                background-position: 400% center;
+            }
+        }
+
+        @keyframes ring {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ===== HEADER ===== */
+
+        header {
+            text-align: center;
+            padding: 10px 15px 25px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            background: linear-gradient(
+                90deg,
+                #00eaff,
+                #ff00d4,
+                #00ff88
+            );
+
+            background-size: 300%;
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+
+            animation: magicColor 5s linear infinite;
+        }
+
+        /* ===== BUTTONS ===== */
+
+        .top-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 25px;
+            padding: 11px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+            background: linear-gradient(
+                90deg,
+                #ff0055,
+                #7a00ff,
+                #00d9ff
+            );
+            background-size: 200%;
+            animation: magicColor 4s linear infinite;
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.25);
+        }
+
+        /* ===== VIDEO CARD ===== */
+
+        .container {
+            width: 94%;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .video-card {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 18px;
+
+            background: #090909;
+
+            border: 1px solid #222;
+
+            box-shadow:
+                0 0 20px rgba(255, 0, 200, 0.08),
+                inset 0 0 20px rgba(0, 217, 255, 0.03);
+        }
+
+        .video-title {
+            margin-bottom: 12px;
+            font-size: 18px;
+
+            background: linear-gradient(
+                90deg,
+                #ff00cc,
+                #00eaff,
+                #00ff88
+            );
+
+            background-size: 300%;
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+
+            animation: magicColor 5s linear infinite;
+        }
+
+        .video-box {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #111;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+        }
+
+        /* ===== TELEGRAM ===== */
+
+        .telegram {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+
+            padding: 7px 12px;
+            border-radius: 20px;
+
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+
+            color: #00cfff;
+            border: 1px solid #00aaff;
+
+            box-shadow: 0 0 10px rgba(0, 174, 255, 0.25);
+        }
+
+        .telegram:hover {
+            box-shadow: 0 0 18px rgba(0, 174, 255, 0.6);
+        }
+
+        /* ===== EMPTY MESSAGE ===== */
+
+        .empty {
+            text-align: center;
+            padding: 50px 10px;
+            color: #777;
+        }
+
+        /* ===== MOBILE ===== */
+
+        @media (max-width: 500px) {
+
+            .logo {
+                font-size: 30px;
+                padding: 8px 18px;
+            }
+
+            .subtitle {
+                font-size: 13px;
+            }
+
+            .video-card {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">
+            Viral Video
+        </div>
+
+        <div class="subtitle">
+            Watch • Like • Comment • Enjoy
+        </div>
+
+        <div class="top-buttons">
+            <button class="btn">🔐 Login</button>
+            <button class="btn">📝 Sign Up</button>
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+        <div class="video-card">
+
+            <div class="video-title">
+                🎬 Viral Video
+            </div>
+
+            <div class="video-box">
+                ভিডিও এখানে দেখা যাবে
+            </div>
+
+            <a
+                class="telegram"
+                href="https://t.me/viralvideo538"
+                target="_blank"
+            >
+                ✈️ Telegram Channel
+            </a>
+
+        </div>
+
+
+        <div class="empty">
+            🔥 নতুন ভিডিও খুব শীঘ্রই আসছে...
+        </div>
+
+    </main>
+
+</body>
+</html>
