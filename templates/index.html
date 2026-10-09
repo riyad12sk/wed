@@ -225,7 +225,7 @@ radial-gradient(ellipse at 50% 100%,#490a3044,transparent 45%)}
         <input class="field" name="title" maxlength="120" required placeholder="ভিডিওর নাম">
       </div>
       <div>
-        <label class="text-sm text-slate-300 block mb-1">ভিডিও ফাইল (সর্বোচ্চ ১০০ MB)</label>
+        <label class="text-sm text-slate-300 block mb-1">ভিডিও ফাইল (সর্বোচ্চ ৭০০ MB)</label>
         <input class="field" type="file" name="video" accept="video/mp4,video/webm,video/quicktime,.m4v" required>
       </div>
       <div>
@@ -548,8 +548,8 @@ document.getElementById('uploadForm').addEventListener('submit', async event => 
     toast('ভিডিও ফাইল নির্বাচন করো।');
     return;
   }
-  if (fileInput.files[0].size > 100 * 1024 * 1024) {
-    toast('ভিডিও ১০০ MB-এর মধ্যে হতে হবে।');
+  if (fileInput.files[0].size > 700 * 1024 * 1024) {
+    toast('ভিডিও ৭০০ MB-এর মধ্যে হতে হবে।');
     return;
   }
 
@@ -586,4 +586,4 @@ document.addEventListener('keydown', event => {
 })();
 </script>
 </body>
-        </html>
+  </html>
