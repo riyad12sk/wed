@@ -1,794 +1,589 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="bn" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#050508">
-  <title>🐈‍⬛ Viral Video</title>
-  <meta name="description" content="Viral Video — আবিষ্কার করো নতুন ও জনপ্রিয় ভিডিও।">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="csrf-token" content="{{ csrf_token }}">
+<title>Viral Video — ভাইরাল ভিডিও প্ল্যাটফর্ম</title>
+<meta name="theme-color" content="#020204">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --bg: #050508;
-      --panel: #101018;
-      --muted: #a4a4b5;
-      --line: #292938;
-      --pink: #ff36b7;
-      --blue: #4beaff;
-      --purple: #9b6bff;
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      background:
-        radial-gradient(ellipse at 10% 0%, #28103b55, transparent 35%),
-        radial-gradient(ellipse at 90% 20%, #082e3a55, transparent 35%),
-        var(--bg);
-      color: #f7f7ff;
-      font-family: "Hind Siliguri", sans-serif;
-      min-height: 100vh;
-    }
-
-    button, input, textarea { font: inherit; }
-    button { cursor: pointer; }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: #07070deF;
-      border-bottom: 1px solid #ffffff13;
-      backdrop-filter: blur(18px);
-    }
-
-    .nav {
-      max-width: 1180px;
-      margin: auto;
-      padding: 12px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-    }
-
-    .cat-ring {
-      width: 45px;
-      height: 45px;
-      flex: 0 0 45px;
-      border-radius: 50%;
-      padding: 3px;
-      background: conic-gradient(
-        #ff2d95, #ffb52e, #66ff9a, #39e8ff,
-        #8a58ff, #ff39cf, #ff2d95
-      );
-      animation: spin 4s linear infinite;
-      box-shadow: 0 0 20px #c735ff66;
-    }
-
-    .cat-ring span {
-      width: 100%;
-      height: 100%;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: #090911;
-      font-size: 24px;
-      animation: counterspin 4s linear infinite;
-    }
-
-    .brand-name {
-      margin: 0;
-      font-size: clamp(19px, 4vw, 27px);
-      font-weight: 700;
-      white-space: nowrap;
-      background: linear-gradient(90deg, #ff45bc, #ffd45e, #51f5ff, #ac75ff, #ff45bc);
-      background-size: 300% auto;
-      color: transparent;
-      background-clip: text;
-      -webkit-background-clip: text;
-      animation: rainbow 5s linear infinite;
-    }
-
-    .brand-sub {
-      color: #a6a6bb;
-      font-size: 11px;
-      margin-top: -3px;
-    }
-
-    .nav-actions { display: flex; gap: 8px; }
-
-    .btn {
-      border: 1px solid #ffffff22;
-      border-radius: 12px;
-      padding: 9px 13px;
-      color: white;
-      background: #ffffff09;
-      transition: .2s;
-    }
-
-    .btn:hover { border-color: var(--blue); transform: translateY(-1px); }
-
-    .btn-primary {
-      background: linear-gradient(110deg, #a72bff, #ff35a6);
-      border: 0;
-      font-weight: 600;
-    }
-
-    .container { max-width: 1180px; margin: auto; padding: 22px 18px 50px; }
-
-    .hero {
-      position: relative;
-      overflow: hidden;
-      padding: clamp(25px, 6vw, 55px) 22px;
-      text-align: center;
-      border: 1px solid #ffffff18;
-      border-radius: 25px;
-      background: linear-gradient(135deg, #21102caa, #101525cc, #102c32aa);
-      box-shadow: 0 20px 70px #0005;
-    }
-
-    .hero:before {
-      content: "";
-      position: absolute;
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      background: #c02dff18;
-      filter: blur(50px);
-      left: -90px;
-      top: -130px;
-    }
-
-    .live-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      color: #7dffc0;
-      background: #36ff9a12;
-      border: 1px solid #36ff9a44;
-      border-radius: 30px;
-      padding: 5px 12px;
-      font-size: 13px;
-    }
-
-    .live-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #40ff9b;
-      box-shadow: 0 0 12px #40ff9b;
-    }
-
-    .hero h2 { font-size: clamp(27px, 6vw, 44px); margin: 15px 0 5px; }
-    .hero h2 span {
-      background: linear-gradient(90deg, #ff4dbd, #ffd75d, #48efff);
-      color: transparent;
-      background-clip: text;
-      -webkit-background-clip: text;
-    }
-
-    .hero p { color: #c0bfd1; margin: 5px 0 20px; }
-
-    .search-wrap {
-      max-width: 560px;
-      margin: 20px auto 0;
-      display: flex;
-      gap: 8px;
-      padding: 6px;
-      border: 1px solid #ffffff20;
-      border-radius: 15px;
-      background: #05050acc;
-    }
-
-    .search-wrap input {
-      width: 100%;
-      min-width: 0;
-      padding: 9px;
-      border: 0;
-      outline: 0;
-      color: white;
-      background: transparent;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin: 28px 0 14px;
-    }
-
-    .section-head h2 { margin: 0; font-size: 22px; }
-    .muted { color: var(--muted); font-size: 13px; }
-
-    .categories { display: flex; flex-wrap: wrap; gap: 8px; }
-
-    .chip {
-      color: #d8d7e7;
-      background: #ffffff08;
-      border: 1px solid #ffffff1b;
-      border-radius: 30px;
-      padding: 8px 15px;
-    }
-
-    .chip.active {
-      color: white;
-      border-color: #ca62ff;
-      background: #a32bff2a;
-    }
-
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 17px;
-    }
-
-    .video-card {
-      overflow: hidden;
-      border: 1px solid #ffffff18;
-      border-radius: 17px;
-      background: linear-gradient(150deg, #151520, #0b0b11);
-      transition: transform .2s, border-color .2s;
-    }
-
-    .video-card:hover {
-      transform: translateY(-3px);
-      border-color: #b04cff88;
-    }
-
-    .video-frame {
-      position: relative;
-      aspect-ratio: 16 / 10;
-      background: #080810;
-      overflow: hidden;
-    }
-
-    .video-frame video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      background: #080810;
-    }
-
-    .video-label {
-      position: absolute;
-      left: 10px;
-      top: 10px;
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 7px;
-      background: #080810d9;
-      border: 1px solid #ffffff20;
-    }
-
-    .video-info { padding: 13px; }
-    .video-title { font-size: 16px; margin: 0 0 7px; overflow-wrap: anywhere; }
-    .video-description { color: #a9a9ba; font-size: 13px; margin: 0 0 12px; }
-
-    .video-actions {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .small-btn {
-      border: 1px solid #ffffff1c;
-      background: #ffffff08;
-      color: #e7e5f1;
-      padding: 6px 10px;
-      border-radius: 9px;
-      font-size: 13px;
-    }
-
-    .small-btn.liked { color: #ff75b7; border-color: #ff4ca055; }
-
-    .telegram {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      text-decoration: none;
-      color: #55caff;
-      font-size: 13px;
-      margin-top: 13px;
-    }
-
-    .telegram:hover { color: #a4edff; }
-
-    .empty-state {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 40px 15px;
-      border: 1px dashed #ffffff2b;
-      border-radius: 17px;
-      color: #aaaabc;
-    }
-
-    .notice {
-      margin-top: 20px;
-      padding: 13px 15px;
-      border: 1px solid #ffcc5540;
-      background: #ffcc550b;
-      color: #e5d3a0;
-      border-radius: 12px;
-      font-size: 13px;
-    }
-
-    footer {
-      text-align: center;
-      color: #88889c;
-      border-top: 1px solid #ffffff12;
-      padding: 24px 15px;
-      font-size: 13px;
-    }
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      z-index: 30;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      background: #000c;
-      backdrop-filter: blur(8px);
-    }
-
-    .modal.open { display: flex; }
-
-    .modal-box {
-      width: 100%;
-      max-width: 430px;
-      max-height: 90vh;
-      overflow: auto;
-      padding: 23px;
-      border-radius: 20px;
-      border: 1px solid #ffffff25;
-      background: #11111b;
-      box-shadow: 0 20px 90px #0009;
-    }
-
-    .modal-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .modal-head h2 { margin: 0; }
-    .close-btn { border: 0; background: transparent; color: #ddd; font-size: 25px; }
-
-    .form-field { margin-top: 15px; }
-    .form-field label { display: block; margin-bottom: 6px; color: #c6c6d5; font-size: 13px; }
-
-    .form-field input, .form-field textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #ffffff22;
-      outline: 0;
-      color: white;
-      background: #08080e;
-    }
-
-    .form-field input:focus, .form-field textarea:focus { border-color: #bd63ff; }
-
-    .form-error { color: #ff91b5; font-size: 13px; margin-top: 10px; }
-    .form-note { color: #a9a9bb; font-size: 12px; margin-top: 12px; }
-    .full { width: 100%; margin-top: 17px; }
-
-    .comment-list { margin-top: 13px; display: grid; gap: 8px; }
-    .comment {
-      padding: 9px 10px;
-      background: #ffffff08;
-      border-radius: 9px;
-      overflow-wrap: anywhere;
-      font-size: 13px;
-    }
-
-    .comment-form { display: flex; gap: 7px; margin-top: 10px; }
-    .comment-form input {
-      min-width: 0;
-      flex: 1;
-      padding: 9px;
-      border: 1px solid #ffffff20;
-      border-radius: 9px;
-      color: white;
-      background: #08080e;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes counterspin { to { transform: rotate(-360deg); } }
-    @keyframes rainbow { to { background-position: 300% center; } }
-
-    @media (max-width: 850px) {
-      .video-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 560px) {
-      .nav { padding: 10px 12px; gap: 8px; }
-      .cat-ring { width: 38px; height: 38px; flex-basis: 38px; }
-      .cat-ring span { font-size: 21px; }
-      .brand-sub { display: none; }
-      .nav-actions { gap: 5px; }
-      .nav-actions .btn { padding: 8px 9px; font-size: 12px; }
-      .container { padding: 14px 12px 35px; }
-      .hero { border-radius: 18px; padding: 28px 14px; }
-      .video-grid { grid-template-columns: 1fr; gap: 13px; }
-      .video-frame { aspect-ratio: 16 / 9; }
-      .section-head h2 { font-size: 19px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { bangla: ['Hind Siliguri', 'sans-serif'] },
+      colors: {
+        darkBg: '#020204',
+        cardBg: '#0a0d14',
+        neonCyan: '#00f3ff',
+        neonPink: '#ff007f',
+        neonGold: '#ffd700',
+        neonGreen: '#00ff88',
+        neonPurple: '#a855f7'
       }
     }
-  </style>
+  }
+}
+</script>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#020204;color:#f8fafc;font-family:'Hind Siliguri',sans-serif;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;z-index:-2;background:
+radial-gradient(ellipse at 10% 0%,#35105a55,transparent 40%),
+radial-gradient(ellipse at 95% 25%,#004a5550,transparent 38%),
+radial-gradient(ellipse at 50% 100%,#490a3044,transparent 45%)}
+.glass{background:linear-gradient(145deg,#111522dd,#080a10eF);border:1px solid #ffffff13;backdrop-filter:blur(18px)}
+.magic-title{background:linear-gradient(90deg,#00f3ff,#a855f7,#ff007f,#ffd700,#00ff88,#00f3ff);background-size:300% auto;color:transparent;background-clip:text;-webkit-background-clip:text;animation:rainbow 6s linear infinite}
+@keyframes rainbow{to{background-position:300% center}}
+.logo-ring{width:48px;height:48px;display:grid;place-items:center;position:relative;border-radius:50%;background:#080a10;color:#00f3ff}
+.logo-ring:before{content:"";position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(#00f3ff,#a855f7,#ff007f,#ffd700,#00ff88,#00f3ff);z-index:-1;animation:spin 5s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.neon-button{background:linear-gradient(100deg,#00bcd4,#7c3aed,#e11d78);transition:.25s;box-shadow:0 0 22px #7c3aed28}
+.neon-button:hover{filter:brightness(1.2);transform:translateY(-1px)}
+.video-card{transition:transform .25s,border-color .25s;overflow:hidden}
+.video-card:hover{transform:translateY(-4px);border-color:#00f3ff66}
+.thumb{aspect-ratio:16/9;background:linear-gradient(135deg,#15152a,#09212a,#251025);position:relative;display:grid;place-items:center;overflow:hidden}
+.thumb:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent,#0009)}
+.play-btn{position:absolute;z-index:1;width:52px;height:52px;border:1px solid #ffffff77;border-radius:50%;display:grid;place-items:center;background:#ffffff18;backdrop-filter:blur(8px);color:white}
+.tag{border:1px solid #ffffff1a;background:#ffffff08}
+.modal-bg{position:fixed;inset:0;background:#000c;backdrop-filter:blur(10px);z-index:50;display:none;align-items:center;justify-content:center;padding:14px}
+.modal-bg.show{display:flex}
+.modal-panel{width:min(100%,560px);max-height:92vh;overflow:auto;background:#090b12;border:1px solid #ffffff1b;border-radius:22px;box-shadow:0 20px 80px #000b}
+.field{width:100%;background:#05070c;border:1px solid #ffffff1b;border-radius:12px;padding:12px 14px;color:white;outline:none}
+.field:focus{border-color:#00f3ff88;box-shadow:0 0 0 3px #00f3ff10}
+.field::placeholder{color:#7d8495}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:100;background:#111827;border:1px solid #ffffff20;border-radius:14px;padding:12px 18px;transition:.25s;max-width:90vw}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.category-btn{white-space:nowrap;border:1px solid #ffffff17;background:#ffffff07;border-radius:999px;padding:8px 14px;color:#cbd5e1}
+.category-btn.active{background:#00f3ff16;border-color:#00f3ff77;color:#00f3ff}
+@media(max-width:480px){.logo-ring{width:42px;height:42px}.brand-title{font-size:20px}.hero-title{font-size:32px}}
+</style>
 </head>
 
 <body>
-  <header class="topbar">
-    <nav class="nav">
-      <div class="brand">
-        <div class="cat-ring"><span>🐈‍⬛</span></div>
-        <div>
-          <h1 class="brand-name">Viral Video</h1>
-          <div class="brand-sub">Discover something amazing ✨</div>
-        </div>
+<header class="sticky top-0 z-40 border-b border-white/10 bg-[#05060ae8] backdrop-blur-xl">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+    <a href="/" class="flex items-center gap-3 min-w-0">
+      <div class="logo-ring"><i class="fa-solid fa-play"></i></div>
+      <div class="min-w-0">
+        <div class="brand-title magic-title font-extrabold text-2xl leading-tight">Viral Video</div>
+        <div class="text-[10px] tracking-[.2em] text-slate-400">YOUR VIRAL WORLD</div>
       </div>
-
-      <div class="nav-actions">
-        <button class="btn" id="loginButton">Login</button>
-        <button class="btn btn-primary" id="signupButton">Join Us</button>
-      </div>
-    </nav>
-  </header>
-
-  <main class="container">
-    <section class="hero">
-      <div class="live-pill"><span class="live-dot"></span> Viral Video Hub</div>
-      <h2>তোমার পছন্দের <span>ভিডিও খুঁজে নাও</span></h2>
-      <p>নতুন ভিডিও আবিষ্কার করো, উপভোগ করো এবং বন্ধুদের সঙ্গে শেয়ার করো।</p>
-
-      <form class="search-wrap" id="searchForm">
-        <input id="searchInput" type="search" placeholder="ভিডিও খুঁজুন..." aria-label="ভিডিও খুঁজুন">
-        <button class="btn btn-primary" type="submit">🔎 Search</button>
-      </form>
-    </section>
-
-    <section>
-      <div class="section-head">
-        <h2>🌈 Explore Categories</h2>
-      </div>
-      <div class="categories" id="categories">
-        <button class="chip active" data-category="সব">সব ভিডিও</button>
-        <button class="chip" data-category="Funny">😂 Funny</button>
-        <button class="chip" data-category="Entertainment">🎬 Entertainment</button>
-        <button class="chip" data-category="Music">🎵 Music</button>
-        <button class="chip" data-category="Other">✨ Other</button>
-      </div>
-    </section>
-
-    <section>
-      <div class="section-head">
-        <h2>🔥 Latest Videos</h2>
-        <span class="muted" id="videoCount">0 videos</span>
-      </div>
-
-      <div class="video-grid" id="videoGrid">
-        <div class="empty-state">ভিডিও লোড হচ্ছে...</div>
-      </div>
-
-      <div class="notice">
-        ℹ️ এই সংস্করণে ভিডিও কার্ড ও UI প্রস্তুত। স্থায়ী ভিডিও আপলোড, নিরাপদ Login, Like ও Comment চালু করতে backend API এবং database যুক্ত করতে হবে।
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div>🐈‍⬛ <strong>Viral Video</strong></div>
-    <div style="margin:6px 0 12px">Made for video lovers ✨</div>
-    <a class="telegram" href="https://t.me/viralvideo538" target="_blank" rel="noopener noreferrer">
-      ✈️ Join our Telegram Channel
     </a>
-  </footer>
-
-  <!-- Login / Signup UI -->
-  <div class="modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
-    <div class="modal-box">
-      <div class="modal-head">
-        <h2 id="authTitle">Welcome</h2>
-        <button class="close-btn" data-close="authModal" aria-label="বন্ধ করুন">&times;</button>
-      </div>
-
-      <form id="authForm">
-        <div class="form-field" id="nameField">
-          <label for="authName">তোমার নাম</label>
-          <input id="authName" name="name" maxlength="80" autocomplete="name" placeholder="নাম লিখুন">
-        </div>
-
-        <div class="form-field">
-          <label for="authPhone">ফোন নম্বর</label>
-          <input id="authPhone" name="phone" inputmode="tel" autocomplete="tel" maxlength="20" required placeholder="ফোন নম্বর লিখুন">
-        </div>
-
-        <div class="form-field">
-          <label for="authPassword">পাসওয়ার্ড</label>
-          <input id="authPassword" name="password" type="password" minlength="8" maxlength="128" autocomplete="current-password" required placeholder="কমপক্ষে ৮ অক্ষর">
-        </div>
-
-        <button class="btn btn-primary full" type="submit" id="authSubmit">Continue</button>
-        <p class="form-error" id="authError" role="status"></p>
-        <p class="form-note" id="authNote">
-          নিরাপত্তার জন্য Login API চালু হওয়ার পরই account তৈরি ও login কাজ করবে।
-        </p>
-      </form>
+    <div class="flex gap-2 items-center">
+      <button id="uploadButton" class="hidden text-sm px-3 py-2 rounded-xl border border-fuchsia-400/40 text-fuchsia-300" onclick="openModal('uploadModal')">
+        <i class="fa-solid fa-cloud-arrow-up mr-1"></i><span class="hidden sm:inline">আপলোড</span>
+      </button>
+      <button id="authButton" onclick="openAuth()" class="neon-button text-sm font-bold rounded-xl px-4 py-2">
+        <i class="fa-regular fa-user mr-1"></i> লগইন
+      </button>
+      <button id="logoutButton" onclick="logout()" class="hidden text-sm border border-white/15 rounded-xl px-3 py-2">লগআউট</button>
     </div>
   </div>
+</header>
 
-  <!-- Comments UI -->
-  <div class="modal" id="commentModal" role="dialog" aria-modal="true" aria-labelledby="commentTitle">
-    <div class="modal-box">
-      <div class="modal-head">
-        <h2 id="commentTitle">💬 Comments</h2>
-        <button class="close-btn" data-close="commentModal" aria-label="বন্ধ করুন">&times;</button>
+<main class="max-w-7xl mx-auto px-4">
+  <section class="text-center py-12 sm:py-16">
+    <div class="inline-flex items-center gap-2 tag rounded-full px-4 py-2 text-xs text-cyan-300 mb-5">
+      <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+      VIRAL VIDEO COMMUNITY
+    </div>
+    <h1 class="hero-title text-4xl sm:text-6xl font-extrabold leading-tight">
+      তোমার <span class="magic-title">Viral World</span>
+    </h1>
+    <p class="text-slate-400 max-w-xl mx-auto mt-4 leading-7">
+      নতুন ভিডিও দেখো, পছন্দের ভিডিওতে লাইক দাও, কমেন্ট করো এবং বন্ধুদের সঙ্গে শেয়ার করো।
+    </p>
+    <div class="flex flex-wrap items-center justify-center gap-3 mt-7">
+      <a href="#videos" class="neon-button rounded-xl px-5 py-3 font-bold">ভিডিও দেখো <i class="fa-solid fa-arrow-down ml-1"></i></a>
+      <a href="https://t.me/viralvideo538" target="_blank" rel="noopener noreferrer" class="rounded-xl px-5 py-3 border border-sky-400/40 text-sky-300">
+        <i class="fa-brands fa-telegram mr-1"></i> Telegram
+      </a>
+    </div>
+  </section>
+
+  <section id="videos" class="pb-14">
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-5">
+      <div>
+        <p class="text-xs tracking-[.22em] text-fuchsia-300 mb-1">DISCOVER</p>
+        <h2 class="text-2xl sm:text-3xl font-bold">🔥 ভিডিও ফিড</h2>
       </div>
-      <div class="comment-list" id="commentList"></div>
-      <form class="comment-form" id="commentForm">
-        <input id="commentInput" maxlength="500" placeholder="মন্তব্য লিখুন..." required>
-        <button class="btn btn-primary" type="submit">Send</button>
-      </form>
-      <p class="form-note">Comments স্থায়ীভাবে সংরক্ষণ করতে server-side API প্রয়োজন।</p>
+      <div class="text-sm text-slate-400" id="videoCount">ভিডিও লোড হচ্ছে...</div>
+    </div>
+
+    <div class="flex gap-2 overflow-x-auto pb-4 mb-3" id="categories">
+      <button class="category-btn active" data-category="সব" onclick="filterCategory('সব',this)">🔥 সব ভিডিও</button>
+      <button class="category-btn" data-category="ট্রেন্ডিং" onclick="filterCategory('ট্রেন্ডিং',this)">⚡ ভাইরাল ট্রেন্ডিং ভিডিও</button>
+      <button class="category-btn" data-category="বাংলাদেশি" onclick="filterCategory('বাংলাদেশি',this)">🇧🇩 বাংলাদেশি</button>
+      <button class="category-btn" data-category="স্কুল কলেজ" onclick="filterCategory('স্কুল কলেজ',this)">🎓 স্কুল কলেজ</button>
+      <button class="category-btn" data-category="হট" onclick="filterCategory('হট',this)">✨ হট</button>
+    </div>
+
+    <div id="videoGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="glass rounded-2xl p-8 text-center text-slate-400 col-span-full">
+        <i class="fa-solid fa-circle-notch fa-spin text-2xl mb-3"></i>
+        <p>ভিডিও লোড হচ্ছে...</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="border-t border-white/10 py-8">
+  <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-400">
+    <p>© <span id="year"></span> <span class="magic-title font-bold">Viral Video</span> — ভালো কনটেন্ট, সুন্দর কমিউনিটি।</p>
+    <a href="https://t.me/viralvideo538" target="_blank" rel="noopener noreferrer" class="text-sky-300 hover:text-sky-200">
+      <i class="fa-brands fa-telegram mr-1"></i> আমাদের Telegram
+    </a>
+  </div>
+</footer>
+
+<!-- VIDEO MODAL -->
+<div id="videoModal" class="modal-bg" onclick="if(event.target===this)closeModal('videoModal')">
+  <div class="modal-panel">
+    <div class="flex items-center justify-between p-4 border-b border-white/10">
+      <h3 id="modalTitle" class="font-bold text-lg pr-3">ভিডিও</h3>
+      <button onclick="closeModal('videoModal')" class="w-9 h-9 rounded-full bg-white/5 text-slate-300"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="p-4">
+      <video id="videoPlayer" controls playsinline class="w-full rounded-xl bg-black max-h-[50vh]"></video>
+      <div class="flex flex-wrap items-center justify-between gap-3 mt-4">
+        <div class="text-sm text-slate-400"><span id="modalCategory"></span> · <span id="modalViews">0</span> ভিউ</div>
+        <button id="likeButton" onclick="toggleLike()" class="rounded-xl border border-pink-400/30 text-pink-300 px-4 py-2">
+          <i class="fa-regular fa-heart mr-1"></i> <span id="likeCount">0</span> লাইক
+        </button>
+      </div>
+      <p id="modalDescription" class="text-slate-300 text-sm leading-6 mt-4 whitespace-pre-wrap"></p>
+      <a id="telegramLink" href="https://t.me/viralvideo538" target="_blank" rel="noopener noreferrer" class="block text-center mt-4 rounded-xl py-3 bg-sky-500/10 border border-sky-400/30 text-sky-300">
+        <i class="fa-brands fa-telegram mr-1"></i> Telegram-এ দেখো / শেয়ার করো
+      </a>
+      <div class="mt-6">
+        <h4 class="font-bold text-lg mb-3">💬 কমেন্ট</h4>
+        <form id="commentForm" class="flex gap-2">
+          <input id="commentInput" class="field min-w-0" maxlength="1000" placeholder="তোমার কমেন্ট লিখো..." required>
+          <button class="neon-button rounded-xl px-4" type="submit" aria-label="কমেন্ট পাঠাও"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+        <div id="commentsList" class="space-y-3 mt-4"></div>
+      </div>
     </div>
   </div>
+</div>
 
-  <script>
-    "use strict";
+<!-- AUTH MODAL -->
+<div id="authModal" class="modal-bg" onclick="if(event.target===this)closeModal('authModal')">
+  <div class="modal-panel p-5 sm:p-7">
+    <div class="flex justify-between items-center mb-5">
+      <div>
+        <p class="text-xs text-cyan-300 tracking-widest">WELCOME</p>
+        <h3 id="authTitle" class="text-2xl font-bold mt-1">লগইন করো</h3>
+      </div>
+      <button onclick="closeModal('authModal')" class="w-9 h-9 rounded-full bg-white/5"><i class="fa-solid fa-xmark"></i></button>
+    </div>
 
-    const TELEGRAM_URL = "https://t.me/viralvideo538";
+    <form id="authForm" class="space-y-3">
+      <div id="nameField" class="hidden">
+        <label class="text-sm text-slate-300 block mb-1">তোমার নাম</label>
+        <input id="authName" class="field" maxlength="60" autocomplete="name" placeholder="নাম লিখো">
+      </div>
+      <div>
+        <label class="text-sm text-slate-300 block mb-1">ফোন নম্বর</label>
+        <input id="authPhone" class="field" type="tel" maxlength="20" autocomplete="tel" placeholder="ফোন নম্বর লিখো" required>
+      </div>
+      <div>
+        <label class="text-sm text-slate-300 block mb-1">পাসওয়ার্ড</label>
+        <input id="authPassword" class="field" type="password" minlength="8" maxlength="128" autocomplete="current-password" placeholder="পাসওয়ার্ড লিখো" required>
+      </div>
+      <button id="authSubmit" class="neon-button w-full rounded-xl py-3 font-bold" type="submit">লগইন</button>
+    </form>
 
-    // কোনো password বা admin secret এখানে রাখা হয় না।
-    // ভিডিও API যুক্ত হলে এখান থেকে server-এ request যাবে।
-    const state = {
-      videos: [],
-      category: "সব",
-      query: "",
-      activeCommentVideo: null
-    };
+    <button id="forgotButton" onclick="forgotPassword()" class="text-sm text-slate-400 hover:text-cyan-300 mt-4">পাসওয়ার্ড ভুলে গেছ?</button>
+    <p class="text-sm text-center text-slate-400 mt-5">
+      <span id="switchText">অ্যাকাউন্ট নেই?</span>
+      <button id="switchAuth" onclick="switchAuthMode()" class="text-cyan-300 font-bold ml-1">সাইনআপ করো</button>
+    </p>
+    <p class="text-xs text-slate-500 leading-5 mt-4">অ্যাকাউন্টের নিরাপত্তার জন্য পাসওয়ার্ড কাউকে দিও না।</p>
+  </div>
+</div>
 
-    const $ = (selector) => document.querySelector(selector);
-    const grid = $("#videoGrid");
+<!-- ADMIN UPLOAD MODAL -->
+<div id="uploadModal" class="modal-bg" onclick="if(event.target===this)closeModal('uploadModal')">
+  <div class="modal-panel p-5 sm:p-7">
+    <div class="flex justify-between items-center mb-5">
+      <div>
+        <p class="text-xs text-fuchsia-300 tracking-widest">ADMIN PANEL</p>
+        <h3 class="text-2xl font-bold mt-1">ভিডিও আপলোড</h3>
+      </div>
+      <button onclick="closeModal('uploadModal')" class="w-9 h-9 rounded-full bg-white/5"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="uploadForm" class="space-y-3">
+      <div>
+        <label class="text-sm text-slate-300 block mb-1">ভিডিওর শিরোনাম</label>
+        <input class="field" name="title" maxlength="120" required placeholder="ভিডিওর নাম">
+      </div>
+      <div>
+        <label class="text-sm text-slate-300 block mb-1">ভিডিও ফাইল (সর্বোচ্চ ১০০ MB)</label>
+        <input class="field" type="file" name="video" accept="video/mp4,video/webm,video/quicktime,.m4v" required>
+      </div>
+      <div>
+        <label class="text-sm text-slate-300 block mb-1">ক্যাটাগরি</label>
+        <select class="field" name="category">
+          <option>ট্রেন্ডিং</option><option>বাংলাদেশি</option><option>স্কুল কলেজ</option><option>হট</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-sm text-slate-300 block mb-1">Telegram লিংক</label>
+        <input class="field" name="telegram_url" type="url" value="https://t.me/viralvideo538" placeholder="https://t.me/viralvideo538">
+      </div>
+      <div>
+        <label class="text-sm text-slate-300 block mb-1">ভিডিওর বিবরণ</label>
+        <textarea class="field" name="description" rows="3" maxlength="2000" placeholder="ভিডিও সম্পর্কে লিখো"></textarea>
+      </div>
+      <button class="neon-button w-full rounded-xl py-3 font-bold" type="submit"><i class="fa-solid fa-cloud-arrow-up mr-2"></i>ভিডিও প্রকাশ করো</button>
+      <p class="text-xs text-slate-500 leading-5">ভিডিও প্রকাশের জন্য অ্যাডমিন লগইন আবশ্যক।</p>
+    </form>
+  </div>
+</div>
 
-    function safeText(value) {
-      return String(value ?? "");
-    }
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-    function openModal(id) {
-      const modal = document.getElementById(id);
-      if (modal) modal.classList.add("open");
-    }
+<script>
+let csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+let currentUser = null;
+let videos = [];
+let activeCategory = 'সব';
+let currentVideo = null;
+let authMode = 'login';
 
-    function closeModal(id) {
-      const modal = document.getElementById(id);
-      if (modal) modal.classList.remove("open");
-    }
+document.getElementById('year').textContent = new Date().getFullYear();
 
-    document.querySelectorAll("[data-close]").forEach((button) => {
-      button.addEventListener("click", () => closeModal(button.dataset.close));
-    });
+function toast(message) {
+  const el = document.getElementById('toast');
+  el.textContent = message;
+  el.classList.add('show');
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => el.classList.remove('show'), 3000);
+}
 
-    document.querySelectorAll(".modal").forEach((modal) => {
-      modal.addEventListener("click", (event) => {
-        if (event.target === modal) modal.classList.remove("open");
-      });
-    });
+function openModal(id) {
+  document.getElementById(id).classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('show');
+  if (!document.querySelector('.modal-bg.show')) {
+    document.body.style.overflow = '';
+  }
+}
+function openAuth() {
+  authMode = 'login';
+  updateAuthForm();
+  openModal('authModal');
+}
+function switchAuthMode() {
+  authMode = authMode === 'login' ? 'signup' : 'login';
+  updateAuthForm();
+}
+function updateAuthForm() {
+  const signup = authMode === 'signup';
+  document.getElementById('authTitle').textContent = signup ? 'নতুন অ্যাকাউন্ট' : 'লগইন করো';
+  document.getElementById('authSubmit').textContent = signup ? 'সাইনআপ করো' : 'লগইন';
+  document.getElementById('nameField').classList.toggle('hidden', !signup);
+  document.getElementById('authName').required = signup;
+  document.getElementById('switchText').textContent = signup ? 'আগে থেকেই অ্যাকাউন্ট আছে?' : 'অ্যাকাউন্ট নেই?';
+  document.getElementById('switchAuth').textContent = signup ? 'লগইন করো' : 'সাইনআপ করো';
+  document.getElementById('forgotButton').classList.toggle('hidden', signup);
+  document.getElementById('authPassword').autocomplete = signup ? 'new-password' : 'current-password';
+}
 
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        document.querySelectorAll(".modal.open").forEach((modal) => {
-          modal.classList.remove("open");
-        });
-      }
-    });
+async function api(url, options = {}) {
+  const headers = new Headers(options.headers || {});
+  headers.set('X-CSRF-Token', csrfToken);
+  if (options.body && !(options.body instanceof FormData)) {
+    headers.set('Content-Type', 'application/json');
+  }
+  const response = await fetch(url, {...options, headers, credentials:'same-origin'});
+  const data = await response.json().catch(() => ({}));
+  if (data.csrfToken) {
+    csrfToken = data.csrfToken;
+    document.querySelector('meta[name="csrf-token"]').content = csrfToken;
+  }
+  if (!response.ok || data.success === false) {
+    throw new Error(data.error || 'অনুরোধটি সম্পন্ন হয়নি।');
+  }
+  return data;
+}
 
-    $("#loginButton").addEventListener("click", () => {
-      $("#authTitle").textContent = "Login";
-      $("#nameField").hidden = true;
-      $("#authName").required = false;
-      $("#authPassword").autocomplete = "current-password";
-      $("#authError").textContent = "";
-      openModal("authModal");
-    });
+function updateAccountUI() {
+  const loggedIn = !!currentUser;
+  document.getElementById('authButton').classList.toggle('hidden', loggedIn);
+  document.getElementById('logoutButton').classList.toggle('hidden', !loggedIn);
+  document.getElementById('uploadButton').classList.toggle('hidden', !(currentUser && currentUser.role === 'admin'));
+}
 
-    $("#signupButton").addEventListener("click", () => {
-      $("#authTitle").textContent = "Create Account";
-      $("#nameField").hidden = false;
-      $("#authName").required = true;
-      $("#authPassword").autocomplete = "new-password";
-      $("#authError").textContent = "";
-      openModal("authModal");
-    });
+async function loadSession() {
+  try {
+    const data = await fetch('/api/session', {credentials:'same-origin'}).then(r => r.json());
+    currentUser = data.user || null;
+    if (data.csrfToken) csrfToken = data.csrfToken;
+    updateAccountUI();
+  } catch (_) {
+    currentUser = null;
+    updateAccountUI();
+  }
+}
 
-    $("#authForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
+async function logout() {
+  try {
+    const data = await api('/api/logout', {method:'POST'});
+    csrfToken = data.csrfToken || csrfToken;
+    currentUser = null;
+    updateAccountUI();
+    toast('লগআউট হয়েছে।');
+  } catch (error) {
+    toast(error.message);
+  }
+}
 
-      // ইচ্ছাকৃতভাবে fake login/signup করা হচ্ছে না।
-      // নিরাপদ authentication endpoint তৈরি হলে সেটি যুক্ত করা হবে।
-      $("#authError").textContent =
-        "Login/Signup এখনো চালু হয়নি। নিরাপদ server-side authentication পরবর্তী ধাপে যুক্ত হবে।";
-    });
+function makeElement(tag, className, text) {
+  const el = document.createElement(tag);
+  if (className) el.className = className;
+  if (text !== undefined) el.textContent = text;
+  return el;
+}
 
-    function createVideoCard(video) {
-      const card = document.createElement("article");
-      card.className = "video-card";
+function renderFeed() {
+  const grid = document.getElementById('videoGrid');
+  grid.replaceChildren();
+  const filtered = activeCategory === 'সব'
+    ? videos
+    : videos.filter(v => v.category === activeCategory);
 
-      const frame = document.createElement("div");
-      frame.className = "video-frame";
+  document.getElementById('videoCount').textContent = `${filtered.length}টি ভিডিও`;
 
-      const player = document.createElement("video");
-      player.controls = true;
-      player.preload = "metadata";
-      player.playsInline = true;
-      player.src = video.url;
-      player.setAttribute("aria-label", video.title);
+  if (!filtered.length) {
+    const empty = makeElement('div', 'glass rounded-2xl p-10 text-center text-slate-400 col-span-full');
+    const icon = makeElement('div', 'text-4xl mb-3', '🐈‍⬛');
+    const title = makeElement('h3', 'text-xl font-bold text-white mb-2', 'এখনও কোনো ভিডিও নেই');
+    const desc = makeElement('p', '', 'অ্যাডমিন নতুন ভিডিও প্রকাশ করলে এখানে দেখা যাবে।');
+    empty.append(icon, title, desc);
+    grid.append(empty);
+    return;
+  }
 
-      const label = document.createElement("span");
-      label.className = "video-label";
-      label.textContent = video.category || "Video";
+  filtered.forEach(video => {
+    const card = makeElement('article', 'video-card glass rounded-2xl');
+    const thumb = makeElement('button', 'thumb w-full text-left');
+    thumb.type = 'button';
+    thumb.setAttribute('aria-label', video.title);
+    const glow = makeElement('div', 'absolute inset-0 opacity-70');
+    glow.style.background = 'radial-gradient(circle at 20% 20%,#00f3ff33,transparent 45%),radial-gradient(circle at 80% 80%,#ff007f33,transparent 45%)';
+    const play = makeElement('span', 'play-btn');
+    play.innerHTML = '<i class="fa-solid fa-play"></i>';
+    const category = makeElement('span', 'absolute z-10 left-3 top-3 tag rounded-full px-3 py-1 text-xs text-cyan-200', video.category || 'ভিডিও');
+    const label = makeElement('span', 'absolute z-10 bottom-3 left-3 right-3 text-sm font-semibold', '▶ ভিডিও দেখতে ট্যাপ করো');
+    thumb.append(glow, play, category, label);
+    thumb.addEventListener('click', () => openVideo(video.id));
 
-      frame.append(player, label);
+    const info = makeElement('div', 'p-4');
+    const title = makeElement('h3', 'font-bold text-lg leading-7 line-clamp-2', video.title);
+    const desc = makeElement('p', 'text-sm text-slate-400 mt-2 line-clamp-2', video.description || 'ভিডিও দেখতে কার্ডে ট্যাপ করো।');
+    const meta = makeElement('div', 'flex items-center justify-between gap-2 mt-4 text-xs text-slate-400');
+    const stats = makeElement('span', '', `▶ ${video.views || 0} ভিউ`);
+    const likes = makeElement('span', 'text-pink-300', `♡ ${video.likes || 0} লাইক`);
+    meta.append(stats, likes);
+    const actions = makeElement('div', 'flex gap-2 mt-4');
+    const watch = makeElement('button', 'neon-button rounded-xl px-4 py-2 text-sm font-bold flex-1', 'ভিডিও দেখো');
+    watch.type = 'button';
+    watch.addEventListener('click', () => openVideo(video.id));
+    const share = makeElement('a', 'rounded-xl px-4 py-2 text-sm border border-sky-400/30 text-sky-300', 'Telegram');
+    share.href = video.telegram_url || 'https://t.me/viralvideo538';
+    share.target = '_blank';
+    share.rel = 'noopener noreferrer';
+    actions.append(watch, share);
+    info.append(title, desc, meta, actions);
+    card.append(thumb, info);
+    grid.append(card);
+  });
+}
 
-      const info = document.createElement("div");
-      info.className = "video-info";
+async function loadVideos() {
+  try {
+    const data = await fetch('/api/videos', {credentials:'same-origin'}).then(r => r.json());
+    videos = data.videos || [];
+    renderFeed();
+  } catch (_) {
+    document.getElementById('videoGrid').replaceChildren(
+      makeElement('p', 'text-rose-300 col-span-full text-center p-8', 'ভিডিও লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করো।')
+    );
+  }
+}
 
-      const title = document.createElement("h3");
-      title.className = "video-title";
-      title.textContent = video.title;
+function filterCategory(category, button) {
+  activeCategory = category;
+  document.querySelectorAll('.category-btn').forEach(el => el.classList.remove('active'));
+  button.classList.add('active');
+  renderFeed();
+}
 
-      const description = document.createElement("p");
-      description.className = "video-description";
-      description.textContent = video.description || "Viral Video";
-
-      const actions = document.createElement("div");
-      actions.className = "video-actions";
-
-      const like = document.createElement("button");
-      like.className = "small-btn";
-      like.type = "button";
-      like.textContent = "♡ Like";
-      like.addEventListener("click", () => {
-        like.textContent = like.textContent.startsWith("♡") ? "♥ Liked" : "♡ Like";
-        like.classList.toggle("liked");
-        alert("Like স্থায়ীভাবে সংরক্ষণ করতে Login ও backend API প্রয়োজন।");
-      });
-
-      const comment = document.createElement("button");
-      comment.className = "small-btn";
-      comment.type = "button";
-      comment.textContent = "💬 Comment";
-      comment.addEventListener("click", () => {
-        state.activeCommentVideo = video.id;
-        $("#commentList").replaceChildren();
-        openModal("commentModal");
-      });
-
-      actions.append(like, comment);
-
-      const telegram = document.createElement("a");
-      telegram.className = "telegram";
-      telegram.href = TELEGRAM_URL;
-      telegram.target = "_blank";
-      telegram.rel = "noopener noreferrer";
-      telegram.textContent = "✈️ Join Telegram Channel";
-
-      info.append(title, description, actions, telegram);
-      card.append(frame, info);
-
-      return card;
-    }
-
-    function renderVideos() {
-      grid.replaceChildren();
-
-      const filtered = state.videos.filter((video) => {
-        const matchesCategory =
-          state.category === "সব" || video.category === state.category;
-
-        const searchText =
-          `${video.title} ${video.description || ""} ${video.category || ""}`.toLowerCase();
-
-        const matchesQuery = searchText.includes(state.query.toLowerCase());
-
-        return matchesCategory && matchesQuery;
-      });
-
-      $("#videoCount").textContent = `${filtered.length} videos`;
-
-      if (!filtered.length) {
-        const empty = document.createElement("div");
-        empty.className = "empty-state";
-        empty.textContent = "এখনো কোনো প্রকাশিত ভিডিও নেই। Admin upload API যুক্ত হলে ভিডিও এখানে দেখাবে।";
-        grid.append(empty);
-        return;
-      }
-
-      filtered.forEach((video) => grid.append(createVideoCard(video)));
-    }
-
-    document.querySelectorAll("[data-category]").forEach((button) => {
-      button.addEventListener("click", () => {
-        state.category = button.dataset.category;
-
-        document.querySelectorAll("[data-category]").forEach((chip) => {
-          chip.classList.toggle("active", chip === button);
-        });
-
-        renderVideos();
-      });
-    });
-
-    $("#searchForm").addEventListener("submit", (event) => {
-      event.preventDefault();
-      state.query = $("#searchInput").value.trim();
-      renderVideos();
-    });
-
-    $("#commentForm").addEventListener("submit", (event) => {
-      event.preventDefault();
-      alert("Comment সংরক্ষণ করতে নিরাপদ backend API যুক্ত করতে হবে।");
-      $("#commentInput").value = "";
-    });
-
-    async function loadVideos() {
-      try {
-        const response = await fetch("/api/videos", {
-          method: "GET",
-          headers: { "Accept": "application/json" },
-          credentials: "same-origin"
-        });
-
-        if (!response.ok) throw new Error("Video API unavailable");
-
-        const data = await response.json();
-
-        if (!Array.isArray(data.videos)) {
-          throw new Error("Invalid video response");
-        }
-
-        state.videos = data.videos.filter((video) => {
-          return video &&
-            typeof video.id === "string" &&
-            typeof video.title === "string" &&
-            typeof video.url === "string" &&
-            /^https:\/\//i.test(video.url);
-        });
-      } catch {
-        // API তৈরি না হওয়া পর্যন্ত demo বা fake video দেখানো হবে না।
-        state.videos = [];
-      }
-
-      renderVideos();
-    }
-
+async function openVideo(id) {
+  try {
+    const data = await api(`/api/videos/${id}`);
+    currentVideo = data.video;
+    document.getElementById('modalTitle').textContent = currentVideo.title;
+    document.getElementById('modalCategory').textContent = currentVideo.category || 'ভিডিও';
+    document.getElementById('modalViews').textContent = currentVideo.views || 0;
+    document.getElementById('modalDescription').textContent = currentVideo.description || '';
+    document.getElementById('likeCount').textContent = currentVideo.likes || 0;
+    document.getElementById('telegramLink').href = currentVideo.telegram_url || 'https://t.me/viralvideo538';
+    const player = document.getElementById('videoPlayer');
+    player.pause();
+    player.src = currentVideo.url;
+    player.load();
+    openModal('videoModal');
+    await loadComments(id);
     loadVideos();
-  </script>
+  } catch (error) {
+    toast(error.message);
+  }
+}
+
+async function toggleLike() {
+  if (!currentVideo) return;
+  try {
+    const data = await api(`/api/videos/${currentVideo.id}/like`, {method:'POST', body:'{}'});
+    document.getElementById('likeCount').textContent = data.likes;
+    document.getElementById('likeButton').classList.toggle('bg-pink-500/10', data.liked);
+    const video = videos.find(v => v.id === currentVideo.id);
+    if (video) video.likes = data.likes;
+    renderFeed();
+  } catch (error) {
+    toast(error.message);
+  }
+}
+
+async function loadComments(id) {
+  const list = document.getElementById('commentsList');
+  list.replaceChildren(makeElement('p', 'text-sm text-slate-500', 'কমেন্ট লোড হচ্ছে...'));
+  try {
+    const data = await fetch(`/api/videos/${id}/comments`, {credentials:'same-origin'}).then(r => r.json());
+    list.replaceChildren();
+    if (!data.comments.length) {
+      list.append(makeElement('p', 'text-sm text-slate-500', 'প্রথম কমেন্টটি তুমিই করো।'));
+      return;
+    }
+    data.comments.forEach(comment => {
+      const box = makeElement('div', 'rounded-xl bg-white/5 border border-white/5 p-3');
+      const row = makeElement('div', 'flex justify-between gap-3');
+      row.append(
+        makeElement('strong', 'text-sm text-cyan-200', comment.user_name),
+        makeElement('span', 'text-[11px] text-slate-500', comment.created_at || '')
+      );
+      const body = makeElement('p', 'text-sm text-slate-300 mt-2 whitespace-pre-wrap break-words', comment.body);
+      box.append(row, body);
+      list.append(box);
+    });
+  } catch (_) {
+    list.replaceChildren(makeElement('p', 'text-sm text-rose-300', 'কমেন্ট লোড হয়নি।'));
+  }
+}
+
+document.getElementById('commentForm').addEventListener('submit', async event => {
+  event.preventDefault();
+  if (!currentVideo) return;
+  const input = document.getElementById('commentInput');
+  const body = input.value.trim();
+  if (!body) return;
+  try {
+    await api(`/api/videos/${currentVideo.id}/comments`, {
+      method:'POST', body:JSON.stringify({body})
+    });
+    input.value = '';
+    await loadComments(currentVideo.id);
+    toast('কমেন্ট যোগ হয়েছে।');
+  } catch (error) {
+    toast(error.message);
+  }
+});
+
+document.getElementById('authForm').addEventListener('submit', async event => {
+  event.preventDefault();
+  const phone = document.getElementById('authPhone').value.trim();
+  const password = document.getElementById('authPassword').value;
+  const payload = {phone, password};
+  let endpoint = '/api/login';
+
+  if (authMode === 'signup') {
+    payload.name = document.getElementById('authName').value.trim();
+    endpoint = '/api/signup';
+  }
+
+  try {
+    const data = await api(endpoint, {
+      method:'POST', body:JSON.stringify(payload)
+    });
+    currentUser = data.user;
+    updateAccountUI();
+    closeModal('authModal');
+    document.getElementById('authForm').reset();
+    toast(currentUser.role === 'admin' ? 'অ্যাডমিন হিসেবে লগইন হয়েছে।' : 'সফলভাবে লগইন হয়েছে।');
+    await loadVideos();
+  } catch (error) {
+    toast(error.message);
+  }
+});
+
+async function forgotPassword() {
+  toast('নিরাপদ OTP যাচাই এখনো সেটআপ করা হয়নি।');
+}
+
+document.getElementById('uploadForm').addEventListener('submit', async event => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const fileInput = form.querySelector('input[type="file"]');
+  if (!fileInput.files.length) {
+    toast('ভিডিও ফাইল নির্বাচন করো।');
+    return;
+  }
+  if (fileInput.files[0].size > 100 * 1024 * 1024) {
+    toast('ভিডিও ১০০ MB-এর মধ্যে হতে হবে।');
+    return;
+  }
+
+  const submit = form.querySelector('button[type="submit"]');
+  submit.disabled = true;
+  submit.textContent = 'আপলোড হচ্ছে...';
+
+  try {
+    await api('/api/admin/videos', {
+      method:'POST',
+      body:new FormData(form)
+    });
+    form.reset();
+    closeModal('uploadModal');
+    toast('ভিডিও প্রকাশ হয়েছে।');
+    await loadVideos();
+  } catch (error) {
+    toast(error.message);
+  } finally {
+    submit.disabled = false;
+    submit.innerHTML = '<i class="fa-solid fa-cloud-arrow-up mr-2"></i>ভিডিও প্রকাশ করো';
+  }
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    document.querySelectorAll('.modal-bg.show').forEach(el => closeModal(el.id));
+  }
+});
+
+(async function startApp() {
+  await loadSession();
+  await loadVideos();
+})();
+</script>
 </body>
-    </html>
+        </html>
